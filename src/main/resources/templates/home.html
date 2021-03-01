@@ -1,0 +1,110 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<!--
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+-->
+<script th:src="@{/js/1.11.1/jquery.min.js}"></script>
+<link th:href="@{/css/3.0.0/bootstrap.min.css}" rel="stylesheet" id="bootstrap-css">
+<script th:src="@{/js/3.0.0/bootstrap.min.js}"></script>
+
+
+<meta charset="ISO-8859-1">
+
+<link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
+
+    
+    <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+   
+    <link href="dashboard.css" rel="stylesheet">
+
+    
+
+    <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
+
+<title>e-IPTS PapanMuka</title>
+  <link rel="stylesheet" type="text/css" media="all"  th:href="@{/css/home.css}" />
+  
+ 
+</head>
+
+<body>
+<header th:insert="fragments/header :: header"> </header>
+ 
+
+    <div class="container-fluid">
+   
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="#">Keseluruhan <span class="sr-only">(current)</span></a></li>
+             <li><a th:href="@{/createAdmin}">Daftar Pentadbir</a></li>
+            <li><a th:href="@{/adminList}">Senarai Pentadbir</a></li>
+            <li><a th:href="@{/createApproval}">Daftar Pelulus</a></li>
+            <li><a th:href="@{/approvalList}">Senarai Pelulus</a></li>
+            <li><a th:href="@{/generateToken}">Penjanaan Token</a></li>
+            <li><a th:href="@{/revokeToken}">Pembatalan/Pengaktifan Token</a></li>
+            <li><a th:href="@{/fileList}">Senarai Dokumen <!-- Yang Telah Ditandatangan --></a></li>
+            <li><a th:href="@{/documentReport}">Laporan Permohonan Dokumen</a></li>
+            <li><a th:href="@{/adminActivityReport}">Laporan Aktiviti Pentadbir</a></li>
+           <!--   <li class="dropdown-submenu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="nav-label">Audit Trail</span><span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Laporan Permohonan Menandatangani Dokumen </a></li>
+                        <li><a href="#">Laporan Permohonan Pengesanan Dokumen </a></li>
+                        <li><a href="#">Laporan Aktiviti Pentadbir </a></li>
+                      
+                    </ul>
+                </li> -->
+                
+          </ul>
+         
+         
+        </div>
+         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">SELAMAT DATANG KE e-IPTS</h1>
+
+          <div class="row placeholders">
+         
+            <div class="col-xs-6 col-sm-3 placeholder">
+
+                 <input type="text" id="fname" name="fname" disabled="disabled"   th:value="${approvalNo}">             
+             
+              <h4>Pelulus</h4>
+              <span class="text-muted"></span>
+            </div>
+            <div class="col-xs-6 col-sm-3 placeholder">
+              <input type="text" id="fname" name="fname"   th:value="${totalRegDoc}"> 
+             
+              <h4>Dokumen Berdaftar</h4>
+              <span class="text-muted"></span>
+            </div>
+            <div class="col-xs-6 col-sm-3 placeholder">
+              <input type="text" id="fname" name="fname" disabled="disabled"  th:value="${notPaid}">
+              <h4>Tertangguh</h4>
+              <span class="text-muted"></span>
+            </div>
+          </div>
+
+        
+        </div>
+      </div>
+    </div>
+
+
+
+ <footer><div th:replace="fragments/footer :: footer">&copy; </div></footer>
+
+</body>
+
+<!-- script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script -->
+<script th:src="@{/js/jquery.min.js}"></script>
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+<script src="../../dist/js/bootstrap.min.js"></script>
+<!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+<script src="../../assets/js/vendor/holder.min.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+</html>

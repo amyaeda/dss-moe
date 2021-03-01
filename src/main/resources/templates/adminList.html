@@ -1,0 +1,222 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+
+
+<!--
+<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+-->
+<script th:src="@{/js/1.11.1/jquery.min.js}"></script>
+<link th:href="@{/css/2.3.2/bootstrap-combined.min.css}" rel="stylesheet" id="bootstrap-css">
+<script th:src="@{/js/2.3.2/bootstrap.min.js}"></script>
+
+<link th:href="@{/css/3.0.0/bootstrap.min.css}" rel="stylesheet" id="bootstrap-css">
+<script th:src="@{/js/3.0.0/bootstrap.min.js}"></script>
+
+  
+<meta charset="ISO-8859-1">
+
+<!-- for alert  -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+
+
+<script type="text/javascript">
+//var $ = jQuery.noConflict();
+var serverContext = [[@{/}]];
+$(document).ready(function() { 
+	
+	 $('.dlt_btn').on('click', function(){
+		 var el = this;
+		  
+		    // Delete id
+		    var deleteid = this.id;
+		   
+		$.confirm({
+		    title: 'Padam!',
+		    content: 'Anda Pasti untuk memadamkan data?',
+		    buttons: {
+		        Ya: function () {
+		            //$.alert('Confirmed!');
+		        	 $.ajax({
+		        		 
+		        		 type : "GET",
+		        		 
+		                 //url:"http://localhost:8082/dss-moe/deleteUser/"+deleteid,
+		                 url: serverContext + "deleteUser/"+deleteid,
+		                 //url:"https://dss:8443/dss-moe/deleteUser/"+deleteid,
+		                 data:{id:deleteid},
+		              
+		                 //cache: false,
+		                 //dataType: "json",
+		                 success: function (data) { 
+		                	
+		                	 $("#success").html("Data berjaya dipadam");
+		                	 setTimeout(function() { location.reload() },3000);
+		                	 //location.reload();
+		                	// window.location.href = window.location.href;
+		                	/*  $(el).closest('tr').fadeOut(800,function(){
+		                		    $(this).remove();
+		                		 }); */
+		                 }
+		             });
+		        	 
+		        },
+		        Tidak: function () {
+		           // $.alert('Canceled!');
+		        },
+		        
+		    }
+		});
+	
+	 });
+	          
+});
+
+
+
+</script>
+<title>Senarai Pentadbir</title>
+  <link rel="stylesheet" type="text/css" media="all" href="../../css/adminlist.css" th:href="@{/css/adminlist.css}" />
+</head>
+<body>
+ <header th:insert="fragments/header :: header"> </header>
+    <br><br><br>
+<div class="span8"> 
+<div class="tab-content"> 
+ 				<span id="success"  th:text="${message}"  style="color:green"></span>
+</div> <br>  
+<form action="#" th:action="@{/adminList}" method="get" >
+ <input type="hidden" id="pageSize" name="pageSize" th:value="${pager.getSelectedPageSize()}"/>
+ <input type="hidden" id="page" name="page" th:value="1"/>
+
+
+ 
+<div class="widget stacked widget-table action-table">
+<table width="100%" border="0" >
+    
+ 
+     <tr height="15"> </tr>
+     <tr> <th colspan="2" >Carian</th></tr>
+     <tr height="5"> </tr>
+	 <tr>
+		 <td colspan="2" valign="middle"><b>Nama Pentadbir : </b> <input type="text" class="form-control"  maxlength="255" size="255" id="nameSearch" name="nameSearch" th:value="${nameSearch}"   style="border-radius:15px;height:30px;width:50%  "> <button type="submit"  style="font-size: 16px;margin: 4px 2px;cursor: pointer;"  >Carian</button>   </td>
+		<!--  <td width="3%" align="center" valign="middle"><b> : </b></td>
+		 <td valign="middle"> </td> -->
+	</tr>
+
+</table><br>
+    				
+				<div class="widget-header">
+					<i class="icon-th-list"></i>
+					<h3>Senarai Pentadbir</h3>
+				</div> <!-- /widget-header -->
+				
+				<div class="widget-content">
+					
+					<table class="table table-striped table-bordered">
+						<thead>
+							<tr>
+								<th>Bil.</th>
+								<th>Nama</th>
+								<th>ID Daftar Masuk</th>
+								<th>Peranan</th>
+								
+								<th class="td-actions">Tindakan</th>
+							</tr>
+						</thead>
+						<tbody>
+						<tr th:if="${list.getTotalElements() == 0}">
+				                <td colspan="5">Tiada data.</td>
+				        </tr>
+				           <tr th:each="users, count : ${list}">
+				           		<td th:text="${count.count + list.getNumber() * pager.getSelectedPageSize()}">.</td>
+				           		<td  th:text="${users.firstName}"></td> 
+				                <td  th:text="${users.userName}" ></td>
+							
+								<td >
+								<th:block  th:each="role : ${users.roles}">
+								<span th:text="${role.role}">.</span>
+								
+								</th:block>
+								
+								</td> 
+								<td class="td-actions">
+								<!-- <input type="text" th:value="@{/deleteUser/{id}(id=${users.id})}" th:id="'del'+${users.id}" > --> 
+									<a th:href="@{/getUserAdmin/{id}(id=${users.id})}" class="open-button" th:id="${users.id}"  >
+										<i class="btn-icon-only icon-edit"></i>										
+									</a> <!--a th:href="@{/deleteUser/{id}(id=${users.id})}"  class="btn btn-small"  -->
+									
+									<th:block th:if="${usrlogin?.roles!=null}">
+
+ 										<th:block th:if="${usrlogin?.roles[0].role}=='PENTADBIR UTAMA'">	
+											<a  class="btn btn-small dlt_btn" th:id="${users.id}" >  
+											<i class="btn-icon-only icon-remove"></i>										
+											</a>
+										</th:block>
+									</th:block>
+									
+								</td>
+								                
+				           		
+				           		
+				           </tr>
+						</tbody>
+						</table>
+					
+				</div> <!-- /widget-content -->
+				
+			<div class="row"><!--list selectable page size, defined in Pager class-->
+            <div class="form-group col-md-1" th:if="${list.getTotalElements() > 5}">
+           
+
+           <!--  Halaman 1 hingga <label th:text="${pager.getSelectedPageSize()}"></label> daripada <span th:text="${list.getTotalElements()}"></span> data. -->
+                <select class="pagination" id="pageSizeSelectAdminList" style="width:46px">
+                    <option th:each="pageSize : ${pager.getPageSizes()}" th:text="${pageSize}" th:value="${pageSize}"
+                            th:selected="${pageSize} == ${pager.getSelectedPageSize()}"></option>
+                </select>
+            </div>
+            <div th:if="${list.getTotalPages() > 1}" class="form-group col-md-11 center">
+                <ul class="pagination"><!--list pagination button range, defined in Pager class-->
+                    <!--buttons are disabled if it is first page or last page reached-->
+                    <!--no buttons displayed when less than a page data found-->
+                    <li th:class="${list.getNumber() == 0} ? disabled"><a class="pageLink"
+                                                                          th:href="@{/adminList(pageSize=${pager.getSelectedPageSize()}, page=1,nameSearch=${nameSearch})}">&laquo;</a>
+                    </li><!--list all matching data-->
+                    <li th:class="${list.getNumber() == 0} ? disabled"><a class="pageLink"
+                                                                          th:href="@{/adminList(pageSize=${pager.getSelectedPageSize()}, page=${list.getNumber()},nameSearch=${nameSearch})}">&larr;</a>
+                    </li>
+                    <li th:class="${list.getNumber() == (page - 1)} ? 'active pointer-disabled'"
+                        th:each="page : ${#numbers.sequence(pager.getStartPage(), pager.getEndPage())}">
+                        <a class="pageLink"
+                            th:href="@{/adminList(pageSize=${pager.getSelectedPageSize()}, page=${page},nameSearch=${nameSearch})}"
+                            th:text="${page}"></a></li>
+                    <li th:class="${list.getNumber() + 1 == list.getTotalPages()} ? disabled"><a class="pageLink"
+                                                                                                 th:href="@{/adminList(pageSize=${pager.getSelectedPageSize()}, page=${list.getNumber() + 2},nameSearch=${nameSearch})}">&rarr;</a>
+                    </li>
+                    <li th:class="${list.getNumber() + 1 == list.getTotalPages()} ? disabled"><a class="pageLink"
+                                                                                                 th:href="@{/adminList(pageSize=${pager.getSelectedPageSize()},page=${list.getTotalPages()},nameSearch=${nameSearch})}">&raquo;</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+			
+			</div> <!-- /widget -->
+</form> </div>
+  <br><br><br> 
+
+<footer><div th:replace="fragments/footer :: footer">&copy; </div></footer>
+<link th:href="@{/css/paging/bootstrap.min.css}" rel="stylesheet"/>
+<link th:href="@{/css/paging/pagination.css}" rel="stylesheet"/>
+<!-- <script th:src="@{/js/paging/jquery.min.js}"></script> -->
+<script th:src="@{/js/paging/bootstrap.min.js}"></script>
+<script th:src="@{/js/paging/pagination.js}"></script> 
+
+</body>
+</html>

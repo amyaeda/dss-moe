@@ -1,0 +1,477 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<!--
+<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+-->
+
+
+
+<script th:src="@{/js/1.11.1/jquery.min.js}"></script>
+<link th:href="@{/css/2.3.2/bootstrap-combined.min.css}" rel="stylesheet" id="bootstrap-css">
+<script th:src="@{/js/2.3.2/bootstrap.min.js}"></script>
+<link th:href="@{/css/3.0.0/bootstrap.min.css}" rel="stylesheet" id="bootstrap-css"> 
+
+<link th:href="@{/css/paging/bootstrap.min.css}" rel="stylesheet"/>
+<link th:href="@{/css/paging/pagination.css}" rel="stylesheet"/>
+<script th:src="@{/js/3.0.0/bootstrap.min.js}"></script> 
+
+<script>
+function myFunction(t) {
+ // var uri = "suerp [super]";
+  var res = encodeURI(t.value);
+  document.getElementById("userURL").innerHTML = res;
+  //alert(res);
+}
+</script>
+
+
+<script type="text/javascript">
+var $ = jQuery.noConflict();
+$(document).ready(function() {
+
+	if($('#userId').val()!=null){
+		//alert('sini aku');
+		 var res = encodeURIComponent($('#userId').val());
+		 // document.getElementById("userURL").innerHTML = res;
+		  //alert(res);
+		  $('#userURL').val(res);
+	}
+	
+	  
+$('#startDate').change(function() {
+    var date = $(this).val();
+  
+	$('#endDate').attr("min", date);
+
+});
+
+$('#endDate').change(function() {
+    var date = $(this).val();
+  
+	$('#startDate').attr("max", date);
+
+});
+
+
+$('#userId').change(function(){
+	
+    var $selectList = $(this);
+    myFunction( $selectList);
+    var $selectedOption = $selectList.children('[value="' + this.value + '"]')
+        .attr('selected', true);
+    var selectedIndex = $selectedOption.index();
+
+
+    var $nonSelectedOptions = $selectList.children().not($selectedOption)
+        .remove()
+        .attr('selected', false);
+
+    // Reset and calculate new fixed width having only selected option as a child
+    $selectList.width('auto').width($selectList.width());
+
+    // Add options back and put selected option in the right place on the list
+    $selectedOption.remove();
+    $selectList.append($nonSelectedOptions);
+    if (selectedIndex >= $nonSelectedOptions.length) {
+         $selectList.append($selectedOption);
+    } else {
+         $selectList.children().eq(selectedIndex).before($selectedOption);
+    }
+    
+   
+});
+
+
+});
+</script>
+<script type="text/javascript">
+function InvalidMsg(textbox) {
+	
+    if (textbox.value == '') {
+        textbox.setCustomValidity('Sila masukkan data.');
+    }
+   /*  else if($('#endDate').val()!=null){
+    	 
+    	if(textbox.validity.customError){
+            textbox.setCustomValidity('Tarikh Dari lebih besar daripada Tarikh Hingga');
+        }
+    } */
+	else if(textbox.validity.rangeOverflow){
+	    //textbox.setCustomValidity('Tarikh Dari lebih besar daripada Tarikh Hingga.');
+	    textbox.setCustomValidity('Tarikh Dari perlu lebih awal daripada Tarikh Hingga.');
+	    $('#startDate').attr("title", 'Tarikh Dari perlu lebih awal daripada Tarikh Hingga.');
+	}
+    else {
+        textbox.setCustomValidity('');
+        $('#startDate').removeAttr("title");
+    }
+    return true;
+}
+
+function InvalidMsg1(textbox) {
+	
+    if (textbox.value == '') {
+        textbox.setCustomValidity('Sila masukkan data.');
+    }
+   /*  else if($('#startDate').val()!=null){
+    	if(textbox.validity.customError){
+            textbox.setCustomValidity('Tarikh Dari lebih besar daripada Tarikh Hingga');
+        }
+    }else if(textbox.validity.rangeOverflow){
+        textbox.setCustomValidity('Tarikh Dari lebih besar daripada Tarikh Hingga');
+    } */
+    
+    else if(textbox.validity.rangeUnderflow){
+	    //textbox.setCustomValidity('Tarikh Dari lebih besar daripada Tarikh Hingga.');
+	     textbox.setCustomValidity('Tarikh Hingga perlu sama atau selepas Tarikh Dari.');
+	    $('#endDate').attr("title", 'Tarikh Hingga perlu sama atau selepas Tarikh Dari.');
+	}
+    
+    else {
+        textbox.setCustomValidity('');
+        $('#endDate').removeAttr("title");
+    }
+    return true;
+}
+</script>
+
+<!-- <script type="text/javascript">
+var $ = jQuery.noConflict();
+
+$(document).ready(function() {
+
+String[] userIdSplit = userId.split("[ ]");
+					String userName = userIdSplit[userIdSplit.length-1];     // 425
+					userName = userName.replaceAll("(\\[)(.*.)(\\])", "$2");
+
+<!-- <script type="text/javascript">
+var $ = jQuery.noConflict();
+
+$(document).ready(function() {
+	
+	if ($('#searchItem').val()=='a'){
+		$('#startDate').attr("required", "required");
+		$('#startDate').attr("oninvalid", "this.setCustomValidity('Sila masukkan data.')");
+ 	    $('#startDate').attr("oninput", "this.setCustomValidity('')");
+        $('#endDate').attr("required", "required");
+        $('#endDate').attr("oninvalid", "this.setCustomValidity('Sila masukkan data.')");
+	    $('#endDate').attr("oninput", "this.setCustomValidity('')");
+        $("#userId").removeAttr("required");
+        $("#status1").removeAttr("required");
+		$('#v1').show();
+    	$('#v2').hide();
+    	$('#v3').hide();
+    	
+    	//$('#v4').hide();
+	}
+	if ($('#searchItem').val()=='b'){
+		$('#v2').show();
+    	$('#v1').hide();
+    	$('#v3').hide();
+    	$('#userId').attr("oninvalid", "this.setCustomValidity('Sila pilih data.')");
+	    $('#userId').attr("oninput", "this.setCustomValidity('')");
+    	$("#startDate").removeAttr("required");
+    	$("#endDate").removeAttr("required");
+    	$('#userId').attr("required", "required");
+    	$("#status1").removeAttr("required");
+    	//$('#v4').hide();
+	}
+	if ($('#searchItem').val()=='c'){
+		$('#v3').show();
+    	$('#v1').hide();
+    	$('#v2').hide();
+    	$("#startDate").removeAttr("required");
+    	$("#endDate").removeAttr("required");
+    	$("#userId").removeAttr("required");
+    	$('#status1').attr("required", "required");
+    	$('#status1').attr("oninvalid", "this.setCustomValidity('Sila pilih data.')");
+ 	    $('#status1').attr("oninput", "this.setCustomValidity('')");
+    	//$('#v4').hide();
+	}
+	if ($('#searchItem').val()=='0'){
+		$('#v3').hide();
+    	$('#v1').hide();
+    	$('#v2').hide();
+    	$("#startDate").removeAttr("required");
+    	$("#endDate").removeAttr("required");
+    	$("#userId").removeAttr("required");
+    	$("#status1").removeAttr("required");
+    	//$('#v4').hide();
+	}
+  
+	$('#searchItem').on('change', function() {
+		
+		if (this.value=="a" ){
+		
+		  // $("#v1").css("display", "table-cell");
+		  // $("#v3").css("display", "none");
+			$('#startDate').attr("required", "required");
+			$('#startDate').attr("oninvalid", "this.setCustomValidity('Sila masukkan data.')");
+	 	    $('#startDate').attr("oninput", "this.setCustomValidity('')");
+            $('#endDate').attr("required", "required");
+            $('#endDate').attr("oninvalid", "this.setCustomValidity('Sila masukkan data.')");
+	 	    $('#endDate').attr("oninput", "this.setCustomValidity('')");
+            $("#userId").removeAttr("required");
+            $("#status1").removeAttr("required");
+	    	$('#v1').show();
+	    	$('#v2').hide();
+	    	$('#v3').hide();
+	    }
+ 		 if (this.value=="b" ){
+ 			$("#startDate").removeAttr("required");
+ 	    	$("#endDate").removeAttr("required");
+ 	    	$('#userId').attr("required", "required");
+ 	        $('#userId').attr("oninvalid", "this.setCustomValidity('Sila pilih data.')");
+ 	        $('#userId').attr("oninput", "this.setCustomValidity('')");
+ 	    	$("#status1").removeAttr("required");
+	    	$('#v2').show();
+	    	$('#v1').hide();
+	    	$('#v3').hide();
+	    	//$('#v4').hide();
+	    } 
+		if (this.value=="c" ){
+		    $('#v3').show();
+		    $('#v2').hide();
+	    	$('#v1').hide();
+	    	//$('#v4').hide();
+	    	$("#startDate").removeAttr("required");
+	    	$("#endDate").removeAttr("required");
+	    	$("#userId").removeAttr("required");
+	    	$('#status1').attr("required", "required");
+	    	$('#status1').attr("oninvalid", "this.setCustomValidity('Sila pilih data.')");
+	 	    $('#status1').attr("oninput", "this.setCustomValidity('')");
+	    }
+		if (this.value=="0" ){
+		    $('#v3').hide();
+		    $('#v2').hide();
+	    	$('#v1').hide();
+	    	$("#startDate").removeAttr("required");
+	    	$("#endDate").removeAttr("required");
+	    	$("#userId").removeAttr("required");
+	    	$("#status1").removeAttr("required");
+	    	
+	    	//$('#v4').hide();
+	    }
+	   
+	  });
+	
+});
+
+
+
+</script> -->
+<style>
+table td {
+    /*border: 1px solid #ccc; */
+}
+table .absorbing-column {
+    width: 100%;
+}
+
+</style>
+<meta charset="ISO-8859-1">
+<title>Senarai Audit</title>
+<link rel="stylesheet" type="text/css" media="all" href="../../css/fileList.css" th:href="@{/css/adminlist.css}" />
+</head>
+<body>
+ <header th:insert="fragments/header :: header"> </header>
+    <br>
+    
+  
+<div class="span9">   
+<div class="widget stacked widget-table action-table">
+<br>
+<h3><b>Laporan Aktiviti Pentadbir</b></h3>
+<form  action="#" th:action="@{/adminActivityReport}" method="get" >
+
+ <input type="hidden" id="pageSize" name="pageSize" th:value="${pager.getSelectedPageSize()}"/>
+ <input type="hidden" id="page" name="page" th:value="1"/>
+ 
+<table width="700%" border=0 >
+	
+ 	 <tr height="15"> </tr>
+ 	<tr>
+    <th colspan="7" >Laporan Dijana Pada: <span th:text="${#calendars.format(#calendars.createNow(), 'dd/MM/yyyy')}"></span></th>
+  
+   </tr>
+   <tr height="15"> </tr>
+    <tr>
+    <th colspan="7" >Laporan Dijana Oleh: <span th:text="${userlogin}"></span></th>
+    
+   
+    
+   </tr>
+     <tr height="15"> </tr>
+		  <tr>
+		    <td width="10%"><b>Tarikh Dari </b> </td>
+		    <td width="3%" align="center"> <b>: </b></td>
+		    <td colspan="3"  width="56%"><input type="date" id="startDate" title="Tarikh Dari perlu lebih awal daripada Tarikh Hingga." name="startDate" th:value="${startDate}" style="border-radius:15px;height:30px" required="required"  oninvalid="InvalidMsg(this);"  oninput="InvalidMsg(this);" onchange="try{setCustomValidity('')}catch(e){}"  >
+		   <b>Hingga</b>  <input type="date" id="endDate" title="Tarikh Hingga perlu sama atau selepas Tarikh Dari."  name="endDate"  th:value="${endDate}" style="border-radius:15px;height:30px" required="required"  oninvalid="InvalidMsg1(this);"  oninput="InvalidMsg1(this);"  onchange="try{setCustomValidity('')}catch(e){}" >
+		   
+		  <!--  <p style="font-size:10px; color:blue">Nota Pengguna:</p>
+		   <p style="font-size:10px; color:blue">Tarikh Dari perlu lebih awal daripada Tarikh Hingga.</p>
+		   <p style="font-size:10px; color:blue">Tarikh Hingga perlu sama atau selepas Tarikh Dari.</p> -->
+		    </td>
+		    <!-- <td width="7%"><p>Nota Pengguna:</p>
+		   <p>Tarikh Dari perlu lebih awal daripada Tarikh Hingga.
+		   Tarikh Hingga perlu sama atau selepas Tarikh Dari.</p>
+		    </td> -->
+		     <td colspan="2" valign="top">
+				
+		   <b style="font-size:10px; color:blue">Nota Pengguna:</b><br>
+		   <b style="font-size:9px; color:blue">Tarikh Dari perlu lebih awal daripada Tarikh Hingga.</b><br>
+		   <b style="font-size:9px; color:blue">Tarikh Hingga perlu sama atau selepas Tarikh Dari.</b>
+		    </td>
+    	 </tr>
+    <tr height="15"> </tr> 	 
+    	 <tr>
+		    <td width="15%"><b>Nama Pentadbir </b> </td>
+		    <td width="3%" align="center"> <b>: </b></td>
+		    <td colspan="5">
+		   <input type="hidden" id="userURL" name="userURL" />
+		    <select name="userId" id="userId" style="border-radius:15px;width:230px"  title="Nama Pentadbir [IdPentadbir]" onchange="myFunction(this)" >
+		         <option value="">-Sila Pilih Nama Pentadbir-</option>
+		          <option th:each="usr : ${getUsers}" 
+		          th:value="${usr}"
+		          th:text="${usr}"  th:selected="${userId} == ${usr}">
+		          </option>
+		    </select>
+		    
+		    <!-- <select name="userId" id="userId" style="border-radius:15px;width:230px" >
+		         <option value="">Sila Pilih Nama Pentadbir</option>
+		          <option th:each="usr : ${getUsers}"
+		          th:value="${usr.userName}"
+		          th:text="${usr.firstName}"  th:selected="${userId} == ${usr.userName}">
+		          </option>
+		        </select> -->
+		    </td>
+    	 </tr>
+     <tr height="15"> </tr>	 
+    	  <tr>
+		    <td width="10%"><b>Status </b> </td>
+		    <td width="3%" align="center"> <b>: </b></td>
+		    <td colspan="5" ><select id="status1" name="status" style="border-radius:15px;width:230px" >
+		         <option  value="" th:selected="${status}==''">Sila Pilih Status</option>
+		         <option value="1" th:selected="${status}=='1'">Berjaya</option>
+		         <option value="0" th:selected="${status}=='0'">Tidak Berjaya</option></select>
+				 <button type="submit" >Carian</button> 
+		    </td>
+		   
+    	 </tr>
+    	 
+ 
+</table>
+ <table style="table-layout: auto; border-collapse: collapse; width: 100%;" >
+ 
+ 
+    <tr> <td colspan=9 align="right">
+	    <th:block  th:if="${audit.getTotalElements() != 0}">
+		<a  th:href="@{/generateAdminActivitReport(pageSize=0, page=1,startDate=${startDate},endDate=${endDate},userId=${userId},status=${status})}" target="_blank">Simpan Laporan</a>
+		</th:block></td></tr>
+ </table>
+</form>
+    				
+				<div class="widget-header">
+					<i class="icon-th-list"></i>
+					<h3>Senarai Audit</h3>
+				</div> <!-- /widget-header -->
+				
+				<div class="widget-content ">
+	
+		<table class="table table-striped table-bordered"  style="table-layout: auto; border-collapse: collapse; width: 100%;">
+						<thead>
+							<tr>
+								<th style="text-align:center">Bil.</th> 
+								<th style="text-align:center">Tarikh/Masa</th>
+								<th style="text-align:center">Nama Pentadbir</th>
+								<th style="text-align:center">Aktiviti</th>
+								<th style="text-align:center">Status</th>
+							
+							</tr>
+						</thead>
+						<tbody>
+						<tr th:if="${audit.getTotalElements() == 0}">
+				                <td colspan="5">Tiada Data. </td>
+				        </tr>
+							<tr th:each="x, count : ${audit}">
+							    <td th:text="${count.count + audit.getNumber() * pager.getSelectedPageSize()}">.</td>
+							   <td th:text="${#dates.format(x.createdAt,'dd/MM/yyyy HH:mm:ss')}" ></td>
+							   
+								<td> 
+								 <th:block th:each="f : ${getAllUser}">
+										  <th:block th:if="${f.userName == x.user}">
+										    <span th:text="${f.firstName}+' ['+${f.userName}+']' "></span>
+										</th:block>
+								</th:block>
+								
+								</td>
+								<td th:text="${x.module}"></td>
+								
+								<div th:switch="${x.status}">
+									 <td th:case="0">Tidak Berjaya</td>
+									 <td th:case="1">Berjaya</td>								 
+							     </div>
+							
+							</tr>
+							
+						
+							</tbody>
+						</table>
+
+  			</div>
+  			<div class="row" align="right" width="120%"><!--list selectable page size, defined in Pager class-->
+            <div class="form-group col-md-1">
+           
+
+           <!--  Halaman 1 hingga <label th:text="${pager.getSelectedPageSize()}"></label> daripada <span th:text="${audit.getTotalElements()}"></span> data. -->
+                <select class="pagination" id="pageSizeSelect" style="width:46px">
+                    <option th:each="pageSize : ${pager.getPageSizes()}" th:text="${pageSize}" th:value="${pageSize}"
+                            th:selected="${pageSize} == ${pager.getSelectedPageSize()}"></option>
+                </select>
+            </div>
+            <div th:if="${audit.getTotalPages() > 1}" class="form-group col-md-11 center">
+                <ul class="pagination"><!--list pagination button range, defined in Pager class-->
+                    <!--buttons are disabled if it is first page or last page reached-->
+                    <!--no buttons displayed when less than a page data found-->
+                    <li th:class="${audit.getNumber() == 0} ? disabled"><a class="pageLink"
+                                                                          th:href="@{/adminActivityReport(pageSize=${pager.getSelectedPageSize()}, page=1,startDate=${startDate},endDate=${endDate},userId=${userId},status=${status})}">&laquo;</a>
+                    </li><!--audit all matching data-->
+                    <li th:class="${audit.getNumber() == 0} ? disabled"><a class="pageLink"
+                                                                          th:href="@{/adminActivityReport(pageSize=${pager.getSelectedPageSize()}, page=${audit.getNumber()},startDate=${startDate},endDate=${endDate},userId=${userId},status=${status})}">&larr;</a>
+                    </li>
+                    <li th:class="${audit.getNumber() == (page - 1)} ? 'active pointer-disabled'"
+                        th:each="page : ${#numbers.sequence(pager.getStartPage(), pager.getEndPage())}"><a
+                            class="pageLink"
+                            th:href="@{/adminActivityReport(pageSize=${pager.getSelectedPageSize()}, page=${page},startDate=${startDate},endDate=${endDate},userId=${userId},status=${status})}"
+                            th:text="${page}"></a></li>
+                    <li th:class="${audit.getNumber() + 1 == audit.getTotalPages()} ? disabled"><a class="pageLink"
+                                                                                                 th:href="@{/adminActivityReport(pageSize=${pager.getSelectedPageSize()}, page=${audit.getNumber() + 2},startDate=${startDate},endDate=${endDate},userId=${userId},status=${status})}">&rarr;</a>
+                    </li>
+                    <li th:class="${audit.getNumber() + 1 == audit.getTotalPages()} ? disabled"><a class="pageLink"
+                                                                                                 th:href="@{/adminActivityReport(pageSize=${pager.getSelectedPageSize()},page=${audit.getTotalPages()},startDate=${startDate},endDate=${endDate},userId=${userId},status=${status})}">&raquo;</a>
+                    </li>
+                </ul> 
+            </div>
+        </div>
+  			
+
+        </div>
+    </div>
+    
+    			
+			
+
+</body><br><br><br>
+<footer><div th:replace="fragments/footer :: footer">&copy; </div></footer>
+
+<script th:src="@{/js/paging/jquery.min.js}"></script>
+<script th:src="@{/js/paging/bootstrap.min.js}"></script>
+<script th:src="@{/js/paging/pagination.js}"></script>
+
+</html>

@@ -1,0 +1,37 @@
+package com.iris.dss.utils;
+
+public class RestApiConstant {
+
+	// API STATUS
+	public static final int STATUS_SUCCESS = 1;  
+	public static final int STATUS_FAILED = 0;
+	
+	// Testing only
+	public static final String FN_ENCRYPTPDF_TEST = "FN_ENCRYPTPDF_TEST";
+	public static final String MSG_SUCCESS_ENCRYPTPDF_TEST = "PDF encrypt test successful.";
+	public static final String MSG_FAILED_ENCRYPTPDF_TEST = "PDF encrypt test failed.";
+	
+	// Production
+	public static final String FN_VERIFY_PDF = "VERIFY_PDF";
+	public static final String FN_SIGN_PDF = "SIGN_PDF";
+	public static final String FN_VERIFY_QR = "VERIFY_QR";
+	public static final String FN_UPDATE_PAYMENT_STATUS = "UPDATE_PAYMENT_STATUS";
+	public static final String FN_PREVIEW_PDF = "PREVIEW_PDF";
+	
+	public static final String MSG_SUCCESS_VERIFY_PDF = "PDF verification successful.";
+	public static final String MSG_SUCCESS_SIGN_PDF = "PDF signing successful.";
+	public static final String MSG_SUCCESS_VERIFY_QR = "QR verification successful.";
+	public static final String MSG_SUCCESS_UPDATE_PAYMENT_STATUS = "Update payment status successful.";
+	public static final String MSG_SUCCESS_PREVIEW_PDF_STATUS = "Generate preview pdf successful.";
+	
+	public static final String MSG_FAILED_VERIFY_PDF = "PDF verification failed.";
+	public static final String MSG_FAILED_SIGN_PDF = "PDF signing failed.";
+	public static final String MSG_FAILED_VERIFY_QR = "QR verification failed.";
+	public static final String MSG_FAILED_UPDATE_PAYMENT_STATUS = "Update payment status failed.";
+	public static final String MSG_FAILED_PREVIEW_PDF_STATUS = "Generate preview pdf failed.";
+	
+	
+	
+	
+	
+}

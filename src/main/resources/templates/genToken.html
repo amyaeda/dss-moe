@@ -1,0 +1,117 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="ISO-8859-1">
+<!--
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+-->
+<script th:src="@{/js/1.11.1/jquery.min.js}"></script>
+<link th:href="@{/css/3.3.0/bootstrap.min.css}" rel="stylesheet" id="bootstrap-css">
+<script th:src="@{/js/3.3.0/bootstrap.min.js}"></script>
+<script th:src="@{/js/3.2.1/jquery.min.js}"></script>
+<link th:href="@{/css/3.0.0/bootstrap.min.css}" rel="stylesheet" id="bootstrap-css">
+<script th:src="@{/js/3.0.0/bootstrap.min.js}"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+
+<link rel="stylesheet" type="text/css" th:href="@{/css/blitzer/jquery-ui-1.8.2.custom.css}">
+
+<script type="text/javascript" th:src="@{/js/jquery-1.4.2.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-ui-1.8.2.custom.min.js}"></script>
+
+<title>Generate Token</title>
+<link rel="stylesheet" type="text/css" media="all" href="../../css/genToken.css" th:href="@{/css/genToken.css}" />
+
+<script type="text/javascript">
+
+
+            $(function(){
+                
+                // jQuery UI Dialog    
+                        
+                $('#dialog').dialog({
+                    autoOpen: false,
+                    width: 400,
+                    modal: true,
+                    resizable: false,
+                    buttons: {
+                        "HANTAR": function() {
+                            document.userForm.submit();
+                        },
+                        "BATAL": function() {
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+                
+                $('form#userForm').submit(function(){
+                    $('#dialog').dialog('open');
+                    return false;
+                });
+                
+                
+                
+            });
+</script>
+
+</head>
+<body>
+ <header th:insert="fragments/header :: header"> </header>
+<br><br><br>
+<div style="background-color:#3598dc; height:350px; width:450px; border-radius:30px; text-font:Arial;" class="col-md-offset-4">
+<h1 style="text-align:center; padding-top:30px; color:#000d33;text-font:Arial"> PENJANAAN TOKEN</h1>
+
+<!-- 
+<div class="col-sm-12" style="padding-top:10px;">
+ID Token: <input type="text" class="form-control" id="TokenID" placeholder="ID" name="TokenID" style="border-radius:15px;">
+</div>
+<div class="col-sm-12" style="padding-top:10px;">
+Nama Pemilik: <input type="text" class="form-control" id="nameOwner" placeholder="Siti Hamidah" name="nameOwner" style="border-radius:15px;">
+</div>
+<div class="col-sm-12" style="padding-top:10px;">
+Nombor Pin: <input type="text" class="form-control" id="pin" placeholder="Pin" name="pin" style="border-radius:15px;">
+</div>
+<div class="col-sm-12" style="padding-top:10px;">
+Tarikh Luput: <input type="date" class="form-control" id="validity" placeholder="Luput" name="validity" style="border-radius:15px;">
+</div>
+-->
+
+<form th:action="@{/generateWSKey}" method="POST" class="main__form" name="userForm" id="userForm" >
+
+<div class="col-sm-12" style="padding-top:10px;">
+Key Value: <input type="text" class="form-control" id="key" name="key" style="border-radius:15px; padding:5px" th:value="${key}" readonly="readonly" ></input>
+</div>
+<div class="col-sm-12" style="padding-top:10px;">
+Keterangan: <input type="text" class="form-control" id="description" maxlength="100" placeholder="Keterangan"  th:value="${desc}" name="description" style="border-radius:15px;" required="required"  oninvalid="this.setCustomValidity('Sila masukkan data.')" oninput="setCustomValidity('')" >
+</div>
+
+
+<th:block th:if="${tokenActive.empty}">
+<div class="col-sm-12" style="padding-top:10px;">
+<center>
+
+<button  style="background-color:#0033cc; border: none;color: white;padding: 5px 28px;text-align: center;display: inline-block;font-size: 16px;margin: 4px 2px;
+  cursor: pointer;" type="submit" >Jana</button>
+
+</center></div>
+
+
+</th:block>
+
+
+
+<div id="dialog" title="Pengesahan"><p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 5px 0 0;"></span> Adakah anda pasti untuk simpan?</p>
+
+
+
+</div></form>
+<footer><div th:replace="fragments/footer :: footer">&copy; </div></footer>
+</body>
+</html>

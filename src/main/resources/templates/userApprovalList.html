@@ -1,0 +1,275 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+
+<!-- 
+<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+-->
+<script th:src="@{/js/1.11.1/jquery.min.js}"></script>
+<link th:href="@{/css/2.3.2/bootstrap-combined.min.css}" rel="stylesheet" id="bootstrap-css">
+<script th:src="@{/js/2.3.2/bootstrap.min.js}"></script> 
+
+<link th:href="@{/css/3.0.0/bootstrap.min.css}" rel="stylesheet" id="bootstrap-css"> 
+<script th:src="@{/js/3.0.0/bootstrap.min.js}"></script>
+<link th:href="@{/css/paging/bootstrap.min.css}" rel="stylesheet"/>
+<link th:href="@{/css/paging/pagination.css}" rel="stylesheet" />
+
+<meta charset="ISO-8859-1">
+
+<!-- for alert  -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+
+<script type="text/javascript">
+var $ = jQuery.noConflict();
+var serverContext = [[@{/}]];
+
+$(document).ready(function() { 
+	
+	$('.dlt_btn').on('click', function(){
+		 var el = this;
+		  
+		    // Delete id
+		    var deleteid = this.id;
+		$.confirm({
+		    title: 'Padam!',
+		    content: 'Anda Pasti untuk memadamkan data?',
+		    buttons: {
+		        Ya: function () {
+		            //$.alert('Confirmed!');
+		        	 $.ajax({
+		        		 
+		        		 type : "GET",
+		        		//for local
+		                 //url:"http://localhost:8082/dss-moe/deleteApproval/"+deleteid,
+		                 url: serverContext + "deleteApproval/"+deleteid,
+		                 data:{id:deleteid},
+		              
+		                 //cache: false,
+		                 //dataType: "json",
+		                 success: function (data) { 
+		                	
+		                	 $("#success").html("Data berjaya dipadam");
+		                	 setTimeout(function() { location.reload() },3000);
+		                	 //location.reload();
+		                	// window.location.href = window.location.href;
+		                	/*  $(el).closest('tr').fadeOut(800,function(){
+		                		    $(this).remove();
+		                		 }); */
+		                 }
+		             });
+		        	 
+		        },
+		        Tidak: function () {
+		           // $.alert('Canceled!');
+		        },
+		        
+		    }
+		});
+	
+	 });
+	 
+	 //delete file
+	 $('.dlt_file').on('click', function(){
+		 var el = this;
+		  
+		    // Delete id
+		    var deleteid = this.id;
+		   
+		$.confirm({
+		    title: 'Padam!',
+		    content: 'Anda Pasti untuk memadamkan sijil?',
+		    buttons: {
+		        Ya: function () {
+		            //$.alert('Confirmed!');
+		        	 $.ajax({
+		        		 
+		        		 type : "GET",
+		        		//for local
+		                 //url:"http://localhost:8082/dss-moe/deleteApproval/"+deleteid,
+		                 url: serverContext + "deleteFile/"+deleteid,
+		                 data:{fileId:deleteid},
+		                 success: function (data) { 
+		                
+		                	 $("#success").html("Sijil berjaya dipadam");
+		                	 setTimeout(function() { location.reload() },3000);
+		                	
+		                 }
+		             });
+		        	 
+		        },
+		        Tidak: function () {
+		           
+		        },
+		        
+		    }
+		});
+	
+	 });
+	          
+});
+
+
+</script>
+
+
+
+
+<title>Senarai Pelulus</title>
+<link rel="stylesheet" type="text/css" media="all" href="../../css/userapprovallist.css" th:href="@{/css/userapprovallist.css}" />
+
+</head>
+<body>
+ <header th:insert="fragments/header :: header"> </header>
+  
+  
+    <br><br><br>
+<div class="span14"> 
+<div class="tab-content">
+ 				<span id="success" th:text="${message}" style="color:green">${message}</span>
+</div> <br>   
+
+<input type="hidden" id="pageSize" name="pageSize" th:value="${pager.getSelectedPageSize()}"/>
+<input type="hidden" id="page" name="page" th:value="1"/>
+
+<div class="widget stacked widget-table action-table">
+<form  action="#" th:action="@{/approvalList}" method="get" >
+<table width="100%" border="0" >
+    
+ 
+     <tr height="15"> </tr>
+     <tr> <th colspan="2" >Carian</th></tr>
+     <tr height="5"> </tr>
+	 <tr>
+		 <td colspan="2" valign="middle"><b>Nama Pelulus : </b> <input type="text" class="form-control" th:value="${nameSearch}"    maxlength="255"  id="nameSearch" name="nameSearch"  style="border-radius:15px;height:30px;width:30%  "> <button type="submit"  style="font-size: 16px;margin: 4px 2px;cursor: pointer;"  >Carian</button>   </td>
+		<!--  <td width="3%" align="center" valign="middle"><b> : </b></td>
+		 <td valign="middle"> </td> -->
+	</tr>
+
+</table><br>
+</form>
+    				
+				<div class="widget-header">
+					<i class="icon-th-list"></i>
+					<h3>Senarai Pelulus e-IPTS</h3>
+				</div> <!-- /widget-header -->
+				
+				<div class="widget-content">
+					
+					<table class="table table-striped table-bordered">
+						<thead>
+							<th>Bil.</th>
+
+							<th>ID Pelulus</th>
+								<th>Nama</th>
+								<th>E-mel</th>
+								<th>Tarikh Dari</th>
+								<th>Tarikh Sehingga</th>
+								<th>Jenis fail</th>
+								<th>Sijil/Cert</th>
+								
+								<th class="td-actions">Tindakan</th>
+							</tr>
+						</thead>
+						<tbody>
+						<tr th:if="${list.getTotalElements() == 0}">
+				                <td colspan="9">Tiada data.</td>
+				           </tr>
+				           <tr th:each="users, count : ${list}">
+				                <td th:text="${count.count + list.getNumber() * pager.getSelectedPageSize()}">.</td>
+				           	    <td th:text="${users.userId}">.</td>
+				                    <td  th:text="${users.name}" ></td>
+								<td  th:text="${users.email}"></td>                 
+								<td  th:text="${#dates.format(users.validFrom,'dd/MM/yyyy')}"></td>
+								<td  th:text="${#dates.format(users.validTo,'dd/MM/yyyy')}"></td> 
+								<td>
+									 <th:block th:each="f : ${files}">
+										  <th:block th:if="${f.userApproval.id == users.id}">
+										  <span th:text="${f.fileType}"></span>
+										
+										 </th:block>
+										 </th:block>
+								</td>
+								<td>
+									 <th:block th:each="f : ${files}">
+										  <th:block th:if="${f.userApproval.id == users.id}">
+										    <th:block th:if="${f.fileName!=null}">
+										 <a th:href="@{/download/{id}(id=${f.id})}" class="btn btn-small btn-primary" title="Muat Turun Sijil">
+								              <span th:text="${f.fileName}"></span>
+								            </a>
+								            
+								          <!--   <a class="btn btn-small dlt_file" th:href="@{/deleteFile/{fileId}(fileId=${f.id})}"> --> 
+								            <a class="btn btn-small dlt_file" th:id="${f.id}" >
+								        		<i class="btn-icon-only icon-remove" title="Padam Sijil"></i>
+											</a> 
+										 </th:block></th:block>
+										 </th:block>
+								</td>
+								<td class="td-actions">
+									<a th:href="@{/getApproval/{id}(id=${users.id})}" class="open-button"  >
+										<i class="btn-icon-only icon-edit"></i>										
+									</a>
+								<!-- 	<a th:href="@{/deleteApproval/{id}(id=${users.id})}" class="btn btn-small"> -->
+										<a  class="btn btn-small dlt_btn" th:id="${users.id}" > 
+								        <i class="btn-icon-only icon-remove"></i>
+								    </a>
+									
+								</td>
+				         
+				           </tr>
+						</tbody>
+						</table>
+					
+					
+				</div> <!-- /widget-content -->
+				
+				<div class="row" ><!--list selectable page size, defined in Pager class-->
+            	<div class="form-group col-md-1" th:if="${list.getTotalElements() > 4}">
+           
+
+           <!--  Halaman 1 hingga <label th:text="${pager.getSelectedPageSize()}"></label> daripada <span th:text="${list.getTotalElements()}"></span> data. -->
+                <select class="pagination" id="pageSizeSelectApprovalList" style="width:46px">
+                    <option th:each="pageSize : ${pager.getPageSizes()}" th:text="${pageSize}" th:value="${pageSize}"
+                            th:selected="${pageSize} == ${pager.getSelectedPageSize()}"></option>
+                </select>
+            </div>
+            <div th:if="${list.getTotalPages() > 1}" class="form-group col-md-11 center">
+                <ul class="pagination"><!--list pagination button range, defined in Pager class-->
+                    <!--buttons are disabled if it is first page or last page reached-->
+                    <!--no buttons displayed when less than a page data found-->
+                    <li th:class="${list.getNumber() == 0} ? disabled"><a class="pageLink"
+                                                                          th:href="@{/approvalList(pageSize=${pager.getSelectedPageSize()}, page=1,nameSearch=${nameSearch})}">&laquo;</a>
+                    </li><!--list all matching data-->
+                    <li th:class="${list.getNumber() == 0} ? disabled"><a class="pageLink"
+                                                                          th:href="@{/approvalList(pageSize=${pager.getSelectedPageSize()}, page=${list.getNumber()},nameSearch=${nameSearch})}">&larr;</a>
+                    </li>
+                    <li th:class="${list.getNumber() == (page - 1)} ? 'active pointer-disabled'"
+                        th:each="page : ${#numbers.sequence(pager.getStartPage(), pager.getEndPage())}">
+                        <a class="pageLink"
+                            th:href="@{/approvalList(pageSize=${pager.getSelectedPageSize()}, page=${page},nameSearch=${nameSearch})}"
+                            th:text="${page}"></a></li>
+                    <li th:class="${list.getNumber() + 1 == list.getTotalPages()} ? disabled"><a class="pageLink"
+                                                                                                 th:href="@{/approvalList(pageSize=${pager.getSelectedPageSize()}, page=${list.getNumber() + 2},nameSearch=${nameSearch})}">&rarr;</a>
+                    </li>
+                    <li th:class="${list.getNumber() + 1 == list.getTotalPages()} ? disabled"><a class="pageLink"
+                                                                                                 th:href="@{/approvalList(pageSize=${pager.getSelectedPageSize()},page=${list.getTotalPages()},nameSearch=${nameSearch})}">&raquo;</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+			
+			</div> <!-- /widget -->
+        <br><br><br>
+<footer><div th:replace="fragments/footer :: footer">&copy; </div></footer>
+
+<script th:src="@{/js/paging/bootstrap.min.js}"></script>
+<script th:src="@{/js/paging/pagination.js}"></script>
+
+</body>
+</html>

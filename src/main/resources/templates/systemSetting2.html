@@ -1,0 +1,297 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="ISO-8859-1">
+<!--
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+-->
+<link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}" />
+<script th:src="@{/js/1.11.1/jquery.min.js}"></script>
+<link th:href="@{/css/3.3.0/bootstrap.min.css}" rel="stylesheet" id="bootstrap-css">
+<script th:src="@{/js/3.3.0/bootstrap.min.js}"></script>
+<script th:src="@{/js/3.2.1/jquery.min.js}"></script>
+<link th:href="@{/css/3.0.0/bootstrap.min.css}" rel="stylesheet" id="bootstrap-css">
+<script th:src="@{/js/3.0.0/bootstrap.min.js}"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+
+<link rel="stylesheet" type="text/css" th:href="@{/css/blitzer/jquery-ui-1.8.2.custom.css}">
+
+<script type="text/javascript" th:src="@{/js/jquery-1.4.2.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-ui-1.8.2.custom.min.js}"></script>
+
+
+<script type="text/javascript">
+
+
+            $(function(){
+                
+                // jQuery UI Dialog    
+                        
+                $('#dialog').dialog({
+                    autoOpen: false,
+                    width: 400,
+                    modal: true,
+                    resizable: false,
+                    buttons: {
+                        "HANTAR": function() {
+                            document.userForm.submit();
+                        },
+                        "BATAL": function() {
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+                
+                $('form#userForm').submit(function(){
+                    $('#dialog').dialog('open');
+                    return false;
+                });
+                
+                
+                
+            });
+</script>
+
+<!-- <script type="text/javascript">
+var $ = jQuery.noConflict();
+
+$(document).ready(function() {
+	
+	
+	if ($('#ssl').is(':checked')){
+		//$('#password1').show();
+    	//$('#hantar').show();
+    	$('#emlPassword').attr("required", "required");
+       // $('#emlPassword').attr("oninvalid", "this.setCustomValidity('Sila masukkan data')");
+       // $('#emlPassword').attr("onchange", "try{setCustomValidity('')}catch(e){}");
+       // $('#emlPassword').attr("oninput", "this.setCustomValidity('')");
+        $("#emlPassword").removeAttr("disabled");
+
+    	$('#username').attr("required", "required");
+    	$("#username").removeAttr("disabled");
+    	
+        $('#ktSpan2').show();   
+        $('#ktSpan3').show();
+	 	
+       // $('#pass').attr("oninvalid", "this.setCustomValidity('Mesti mengandungi sekurang- kurangnya satu nombor dan satu huruf besar dan satu huruf kecil dan minimum 6 abjad dan maximum 8 abjad')");
+       // $('#pass').attr("onchange", "try{setCustomValidity('')}catch(e){}");
+       // $('#pass').attr("oninput", "this.setCustomValidity('')");
+	}else{
+		//$('#password1').hide();
+    	//$('#hantar').hide();
+    	$("#emlPassword").removeAttr("required");
+    	$("#emlPassword").val('');
+    	$('#emlPassword').attr("disabled", "disabled");
+    	
+    	$('#username').attr("disabled", "disabled");
+    	$("#username").removeAttr("required");
+    	$("#username").val('');
+    	
+    	$('#ktSpan2').hide();
+    	$('#ktSpan3').hide();
+	}
+
+		$('#ssl').click(function() {
+	    if ($(this).is(':checked')) {
+	    	
+	    	//$('#password1').show();
+	    	//$('#hantar').show();
+	    	$('#emlPassword').attr("required", "required");
+	        //$('#emlPassword').attr("oninvalid", "this.setCustomValidity('Sila masukkan data')");
+	        //$('#emlPassword').attr("onchange", "try{setCustomValidity('')}catch(e){}");
+	        //$('#emlPassword').attr("oninput", "this.setCustomValidity('')");
+	        
+	    	$('#username').attr("required", "required");
+	    	$("#username").removeAttr("disabled");
+	    	
+	        $("#emlPassword").removeAttr("disabled");
+	        $('#ktSpan2').show();
+	        $('#ktSpan3').show();
+		 	
+	    }
+	    else{
+	    
+	    	//$('#password1').hide();
+	    	//$('#hantar').hide();
+	    	
+	    	$('#username').attr("disabled", "disabled");
+	    	$("#username").removeAttr("required");
+	    	$("#username").val('');
+	    	
+	    	$('#emlPassword').attr("disabled", "disabled");
+	    	$("#emlPassword").removeAttr("required");
+	    	$("#emlPassword").val('');
+	    	
+	    	$('#ktSpan2').hide();
+	    	$('#ktSpan3').hide();
+	    	
+	    }
+	  });
+	
+});
+
+
+
+</script>
+ -->
+<title>Daftar Admin</title>
+  <link rel="stylesheet" type="text/css" media="all" href="../../css/createadmin.css" th:href="@{/css/createadmin.css}" />
+</head>
+<body>
+
+  <header th:insert="fragments/header :: header"> </header>
+ 
+<br><br>
+
+<div style="background-color:#3598dc; height:710px; width:450px; border-radius:30px; text-font:Arial;" class="col-md-offset-4">
+<h1 style="text-align:center; padding-top:20px; color:#000d33;text-font:Arial"> TETAPAN E-MEL</h1>
+
+
+<form class="main__form" th:action="@{/systemAdmin}" method="post" name="userForm" id="userForm"  >
+<input type="hidden" id="id"  name="id" th:value="${sys?.id}"  >  <!-- th:value="" -->
+
+
+
+<div class="col-sm-12" style="padding-top:10px;"> <!-- pattern="[^@\s]+@[^@\s]+\.[^@\s]+" -->
+<!-- <span style="color:red">*</span> -->E-mel SMTP:<input type="text" class="form-control" id="emlSMTP" onkeyup="nospaces(this)" maxlength="30"  th:value="${sys?.emailSMTP}"  placeholder="E-mel SMTP" name="emailSMTP" style="border-radius:15px;" required oninvalid="InvalidMsg(this);" onchange="try{setCustomValidity('')}catch(e){}"  oninput="InvalidMsg(this);" disabled="disabled">
+<span id="error" style="color:red"></span>
+</div>
+
+<div class="col-sm-12" style="padding-top:10px;">
+<!-- <span style="color:red">*</span> -->Port E-mel:<input type="number" class="form-control" id="emlport" min="1" max="999" maxlength="3"  th:value="${sys?.emailPort}" placeholder="Port E-mel"  name="emailPort" style="border-radius:15px;" required oninvalid="this.setCustomValidity('Sila masukkan data.')" oninput="setCustomValidity('');maxLengthCheck(this)" disabled="disabled">
+</div>
+
+<div class="col-sm-12" style="padding-top:10px;">
+<!-- <span  style="color:red">*</span> -->ID E-mel:(E-mel Daripada)<input type="text" class="form-control" id="emlId" maxlength="30"  pattern="[^@\s]+@[^@\s]+\.[^@\s]+" th:value="${sys?.emailId}" placeholder="Id E-mel (E-mel Daripada) "  name="emailId" style="border-radius:15px;" required  oninvalid="InvalidMsg(this);" onchange="try{setCustomValidity('')}catch(e){}" oninput="InvalidMsg(this);" disabled="disabled" >
+</div>
+
+<div class="col-sm-12" style="padding-top:10px;">
+Secure Socket Layer (SSL) <input type="checkbox" id="ssl" name="ssl" value="1" style="width: 21px; height: 21px; vertical-align:middle"  th:checked="${sys?.sslCert}" disabled="disabled">
+</div>
+
+
+<div class="col-sm-12" style="padding-top:10px;">
+<!-- <span id="ktSpan2" style="color:red">*</span> -->ID Pengguna:<input type="text" class="form-control"  id="username" maxlength="20" placeholder="Id Pengguna "  th:value="${sys?.userName}"  name="username" style="border-radius:15px;" required  oninvalid="InvalidMsg(this);" onchange="try{setCustomValidity('')}catch(e){}" oninput="InvalidMsg(this);" disabled="disabled" >
+</div>
+<div class="col-sm-12" style="padding-top:10px;">
+<!-- <span id="ktSpan3" style="color:red">*</span> -->Kata Laluan E-mel:<input type="password"  class="form-control" id="emlPassword" th:value="${sys?.emailPassword}" maxlength="10"   placeholder="Kata Laluan E-mel"   name="emailPassword" style="border-radius:15px;"  required oninvalid="this.setCustomValidity('Sila masukkan data.')" oninput="setCustomValidity('');maxLengthCheck(this)" disabled="disabled" > <!-- required   oninvalid="InvalidMsgPassword(this);" onchange="try{setCustomValidity('')}catch(e){}"  oninput="InvalidMsgPassword(this);" -->
+</div>
+
+<div class="col-sm-12" style="padding-top:10px;">
+<h1 style="text-align:center; color:#000d33;text-font:Arial"> TETAPAN SIJIL</h1>
+</div>
+
+
+
+<div class="col-sm-12" style="padding-top:10px;">
+<!-- <span style="color:red">*</span> -->E-mel Pentadbir:<input type="text" disabled="disabled" class="form-control" id="emailAdmin" maxlength="30"  pattern="[^@\s]+@[^@\s]+\.[^@\s]+" th:value="${sys?.emailAdmin}" placeholder="E-mel Pentadbir "  name="emailAdmin" style="border-radius:15px;" required  oninvalid="InvalidMsg(this);" onchange="try{setCustomValidity('')}catch(e){}" oninput="InvalidMsg(this);" >
+</div>
+
+<div class="col-sm-12" style="padding-top:10px;">
+<!-- <span style="color:red">*</span> -->E-mel Pentadbir (Pilihan):<input type="text" disabled="disabled" class="form-control" id="emailAdmin2" maxlength="30"  pattern="[^@\s]+@[^@\s]+\.[^@\s]+" th:value="${sys?.emailAdmin2}" placeholder="E-mel Pentadbir (Pilihan) "  name="emailAdmin2" style="border-radius:15px;"   oninvalid="InvalidMsg(this);" onchange="try{setCustomValidity('')}catch(e){}" oninput="InvalidMsg(this);" >
+</div>
+
+<div class="col-sm-12" style="padding-top:10px;">
+<!-- <span style="color:red">*</span> -->Tetapan Notifikasi e-mel (Hari) :<input type="number" disabled="disabled" class="form-control" id="notification" th:value="${sys?.notification}" placeholder="Tetapan Notifikasi" min="1" max="999" maxlength="3"     name="notification" style="border-radius:15px;" required oninvalid="this.setCustomValidity('Sila masukkan data.')" oninput="setCustomValidity('');maxLengthCheck(this)"  >
+</div>
+
+<br>
+<!-- <div class="col-sm-12" style="padding-top:10px;">
+<center> 
+<button  style="background-color:#0033cc; border: none;color: white;padding: 5px 28px;text-align: center;display: inline-block;font-size: 16px;margin: 4px 2px;
+  cursor: pointer;" type="submit" > HANTAR
+</button>
+<br>
+<span th:text="${message}" style="color:green">${message}</span>
+</center></div>
+
+<div id="dialog" title="Pengesahan"><p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 5px 0 0;"></span> Adakah anda pasti untuk simpan?</p>
+
+ 
+
+</div> -->
+
+ </form>
+</div>
+<br><br><br>
+<footer><div th:replace="fragments/footer :: footer">&copy; </div></footer>
+
+<script type="text/javascript">
+function InvalidMsg(textbox) {
+    
+    if (textbox.value == '') {
+        textbox.setCustomValidity('Sila masukkan data.');
+    }
+    else if(textbox.validity.typeMismatch){
+        textbox.setCustomValidity('Sila masukkan e-mel yang sah.');
+    }
+    else if(textbox.validity.patternMismatch){
+    	textbox.setCustomValidity('Sila masukkan e-mel yang sah.');
+    }
+    else {
+        textbox.setCustomValidity('');
+    }
+    return true;
+}
+
+function InvalidMsgPassword(textbox) {
+    
+    if (textbox.value == '') {
+        textbox.setCustomValidity('Sila masukkan data.');
+    }
+    else if(textbox.validity.patternMismatch){
+        textbox.setCustomValidity('Mesti mengandungi sekurang- kurangnya satu nombor dan satu huruf besar dan satu huruf kecil dan minimum 6 abjad dan maximum 8 abjad.');
+    }
+    else {
+        textbox.setCustomValidity('');
+    }
+    return true;
+}  
+
+</script>
+
+<script>
+  function maxLengthCheck(object) {
+    if (object.value.length > object.maxLength)
+      object.value = object.value.slice(0, object.maxLength)
+  }
+    
+  function isNumeric (evt) {
+    var theEvent = evt || window.event;
+    var key = theEvent.keyCode || theEvent.which;
+    key = String.fromCharCode (key);
+    var regex = /[0-9]|\./;
+    if ( !regex.test(key) ) {
+      theEvent.returnValue = false;
+      if(theEvent.preventDefault) theEvent.preventDefault();
+    }
+  }
+  
+  function nospaces(t){
+
+	  if(t.value.match(/\s/g)){
+
+	  document.getElementById("error").innerHTML="Maaf, anda tidak dibenarkan untuk memasukkan sebarang ruang kosong.";
+	  t.value=t.value.replace(/\s/g,'');
+
+	  }
+
+
+	  if(t.value.match(/[`~!#$%^&*()|+\-=?;:'",<>\{\}\[\]\\\/]/g)){
+
+	  document.getElementById("error").innerHTML="Maaf, anda tidak dibenarkan untuk memasukkan sebarang simbol khas.";
+	  t.value=t.value.replace(/[`~!#$%^&*()|+\-=?;:'",<>\{\}\[\]\\\/]/g,'');
+
+	  }
+}
+</script>
+</body>
+</html>

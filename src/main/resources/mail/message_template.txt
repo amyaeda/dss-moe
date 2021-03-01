@@ -1,0 +1,19 @@
+Dear user,
+
+Just to inform that the following certificate is going to expire soon.
+
+  Certificate Details:
+  
+  Approval Name: <APPROVAL_NAME>
+  
+  Approval ID: <APPROVAL_ID>
+
+  Serial Number: <SERIAL_NUM>
+
+  Subject DN: <SUBJECT_DN>
+
+  Expired on: <VALID_TO>
+
+Please contact your administrator to renew the certificate before it is expired.
+
+Thanks.

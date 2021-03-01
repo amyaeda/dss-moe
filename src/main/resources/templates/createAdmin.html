@@ -1,0 +1,319 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="ISO-8859-1">
+<!--
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+-->
+<script th:src="@{/js/1.11.1/jquery.min.js}"></script>
+<link th:href="@{/css/3.3.0/bootstrap.min.css}" rel="stylesheet" id="bootstrap-css">
+<script th:src="@{/js/3.3.0/bootstrap.min.js}"></script>
+<script th:src="@{/js/3.2.1/jquery.min.js}"></script>
+<link th:href="@{/css/3.0.0/bootstrap.min.css}" rel="stylesheet" id="bootstrap-css">
+<script th:src="@{/js/3.0.0/bootstrap.min.js}"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+
+<link rel="stylesheet" type="text/css" th:href="@{/css/blitzer/jquery-ui-1.8.2.custom.css}">
+
+<script type="text/javascript" th:src="@{/js/jquery-1.4.2.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-ui-1.8.2.custom.min.js}"></script>
+
+<script type="text/javascript">
+
+function nospaces(t){
+
+if(t.value.match(/\s/g)){
+
+document.getElementById("error").innerHTML="Maaf, anda tidak dibenarkan untuk memasukkan sebarang ruang kosong.";
+t.value=t.value.replace(/\s/g,'');
+
+}
+
+
+if(t.value.match(/[`~!@#$%^&*()|+\-=?;:'",.<>\{\}\[\]\\\/]/g)){
+
+document.getElementById("error").innerHTML="Maaf, anda tidak dibenarkan untuk memasukkan sebarang simbol khas.";
+t.value=t.value.replace(/[`~!@#$%^&*()|+\-=?;:'",.<>\{\}\[\]\\\/]/g,'');
+
+}
+
+}
+
+</script>
+
+<script type="text/javascript">
+
+
+            $(function(){
+                
+                // jQuery UI Dialog    
+                        
+                $('#dialog').dialog({
+                    autoOpen: false,
+                    width: 400,
+                    modal: true,
+                    resizable: false,
+                    buttons: {
+                        "HANTAR": function() {
+                            document.userForm.submit();
+                        },
+                        "BATAL": function() {
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+                
+                $('form#userForm').submit(function(){
+                    $('#dialog').dialog('open');
+                    return false;
+                });
+                
+                
+                
+            });
+</script>
+<script type="text/javascript">
+var $ = jQuery.noConflict();
+
+$(document).ready(function() {
+	
+	
+	if ($('#changePass').is(':checked')){
+		$('#password1').show();
+		$('#pass').attr("required", "required");
+		//$('#pass').attr("oninvalid", "InvalidMsgPassword(this);");
+	   // $('#pass').attr("oninput", "InvalidMsgPassword(this);");
+    
+	}else{
+		$('#password1').hide();
+		$("#pass").removeAttr("required");
+	}
+
+		$('#changePass').click(function() {
+	    if ($(this).is(':checked')) {
+	    	
+	    	$('#password1').show();
+	    	$('#pass').attr("required", "required");
+	        //$('#pass').attr("oninvalid", "InvalidMsgPassword(this);");
+		 	//$('#pass').attr("oninput", "InvalidMsgPassword(this);");
+	   
+	    }
+	    else{
+	    
+	    	$('#password1').hide();
+	    	$("#pass").removeAttr("required");
+	    }
+	  });
+		
+		
+		if ($('#id').val() == $('#idLogin').val() || $('#id').val()==''  ){
+			
+			$('#firstName').removeAttr("disabled");
+			$('#email').removeAttr("disabled");
+			$('#a').show();
+			$('#submitJQ').show();
+		}else {
+			
+			$('#firstName').attr("disabled", "disabled");
+			$('#email').attr("disabled", "disabled");
+			$('#a').hide();
+			$('#submitJQ').hide();
+			
+		}
+		
+	
+		
+	
+});
+
+
+
+</script>
+
+<!-- <link rel="stylesheet" type="text/css" href="/css/style.css" th:href="@{/css/style.css}" />
+ -->
+<title>Daftar Admin</title>
+  <link rel="stylesheet" type="text/css" media="all" href="../../css/createadmin.css" th:href="@{/css/createadmin.css}" />
+</head>
+<body>
+
+  <header th:insert="fragments/header :: header"> </header>
+ 
+<br><br><br>
+<th:block th:if="${user==null}">
+<div style="background-color:#3598dc; height:490px; width:450px; border-radius:30px; text-font:Arial;" class="col-md-offset-4">
+</th:block>
+<th:block th:if="${user!=null}">
+<div style="background-color:#3598dc; height:420px; width:450px; border-radius:30px; text-font:Arial;" class="col-md-offset-4">
+</th:block>
+
+<h1 style="text-align:center; padding-top:30px; color:#000d33;text-font:Arial"> DAFTAR PENTADBIR</h1>
+
+<form class="main__form" name="userForm" id="userForm" th:action="@{/addAdmin}" method="post" th:object="${userForm}" >
+
+
+<input type="hidden" id="id"  name="id"  th:value="${user?.id}">
+<input type="hidden" id="idLogin"  name="idLogin"  th:value="${usrlogin?.id}">
+
+<div class="col-sm-12" style="padding-top:10px;">
+Nama: <input type="text" class="form-control" id="firstName" th:field="*{firstName}" maxlength="255" th:value="${user?.firstName}" placeholder="Nama" name="firstName" style="border-radius:15px;" required oninvalid="this.setCustomValidity('Sila masukkan data.')" oninput="setCustomValidity('')">
+</div>
+
+<!-- <div class="col-sm-12" style="padding-top:10px;">
+Nama Akhir:<input type="text" class="form-control" id="lastName" placeholder="Ajman"  th:value="${user?.lastName}" name="lastName" style="border-radius:15px;" required>
+</div> -->
+
+<div class="col-sm-12" style="padding-top:10px;">
+<th:block th:if="${user?.userName!=null}">
+	ID Daftar Masuk: <input type="text" readonly="readonly" class="form-control" maxlength="20"  placeholder="ID Daftar Masuk"  th:value="${user?.userName}" name="usernameAdm" style="border-radius:15px;" required oninvalid="this.setCustomValidity('Sila masukkan data.')" oninput="setCustomValidity('')">
+
+</th:block>
+<th:block th:if="${user==null}">
+ID Daftar Masuk: <input type="text" class="form-control"  onkeyup="nospaces(this)"  maxlength="20" id="usernameAdm" placeholder="ID Daftar Masuk"  th:value="${user?.userName}" name="usernameAdm" style="border-radius:15px;" required oninvalid="this.setCustomValidity('Sila masukkan data.')" oninput="setCustomValidity('')">
+<!-- <span th:text="${duplicate}" style="color:red">${duplicate}</span> -->
+ <span id="error" style="color:red"></span>
+ <span  th:if="${#fields.hasErrors('usernameAdm')}" th:errors="*{usernameAdm}" style="color:red">..</span>
+</th:block>
+</div>
+
+
+
+
+<div class="col-sm-12" style="padding-top:10px;">
+E-mel: <input type="email" class="form-control" id="email" th:field="*{email}" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" title="E-mel tidak sah" th:value="${user?.email}" placeholder="E-mel" maxlength="30" name="email" style="border-radius:15px;" required oninvalid="InvalidMsg(this);"  oninput="InvalidMsg(this);" >
+</div>
+
+<div id="a" class="col-sm-12" style="padding-top:10px;">
+<th:block th:if="${usrlogin?.roles!=null}">
+<th:block th:if="${usrlogin?.roles[0].role}=='PENTADBIR UTAMA'">
+<th:block th:if="${user?.password!=null}">
+<input id="changePass" type="checkbox" name="mycheckbox"/>Tukar Kata Laluan
+<div id="password1">
+<input type="password" class="form-control" id="pass"   th:field="*{passwordAdm}" maxlength="8" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" title="Mesti mengandungi sekurang- kurangnya satu nombor dan satu huruf besar dan satu huruf kecil dan minimum 6 abjad dan maximum 8 abjad"  placeholder="Kata Laluan"   name="passwordAdm" style="border-radius:15px;" oninvalid="InvalidMsgPassword(this);"   onchange="try{setCustomValidity('')}catch(e){}" oninput="InvalidMsgPassword(this);" >
+
+
+</div>
+</th:block>
+</th:block>
+<th:block th:if="${usrlogin?.roles[0].role}=='PENTADBIR'">
+<th:block th:if="${user!=null} ">
+<input type="hidden"  name="passwordAdm"  /> 
+</th:block></th:block>
+</th:block>
+
+<th:block th:if="${user==null}">
+Kata Laluan:<input type="password" class="form-control"  th:field="*{passwordAdm}" maxlength="8" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" title="Mesti mengandungi sekurang- kurangnya satu nombor dan satu huruf besar dan satu huruf kecil dan minimum 6 abjad dan maximum 8 abjad" id="passwordAdm" placeholder="Kata Laluan"   name="passwordAdm" style="border-radius:15px;" required oninvalid="InvalidMsgPassword(this);" onchange="try{setCustomValidity('')}catch(e){}"  oninput="InvalidMsgPassword(this);" >
+</th:block>
+
+</div>
+
+<div class="col-sm-12" style="padding-top:10px;">
+Peranan:   
+<p>
+<th:block th:if="${usrlogin?.roles!=null}">
+
+ <th:block th:if="${usrlogin?.roles[0].role}=='PENTADBIR'">
+ 	<input type="radio" name="roleId" value="PENTADBIR" checked   />Pentadbir
+ 
+ </th:block>
+ 
+  <th:block th:if="${usrlogin?.roles[0].role}=='PENTADBIR UTAMA'">
+  
+  	<th:block th:if="${user?.roles!=null}">
+
+	<th:block th:if="${user?.roles[0].role}=='PENTADBIR'">
+	<input type="radio" name="roleId" value="PENTADBIR" checked disabled="disabled"  />Pentadbir
+	 &nbsp;&nbsp;&nbsp;<input type="radio" name="roleId" value="PENTADBIR UTAMA"  disabled="disabled"  />Pentadbir Utama
+	</th:block>
+	<th:block th:if="${user?.roles[0].role}=='PENTADBIR UTAMA'">
+	<input type="radio" name="roleId" value="PENTADBIR"  disabled="disabled"   />Pentadbir
+	 &nbsp;&nbsp;&nbsp;<input type="radio" name="roleId" checked value="PENTADBIR UTAMA"  disabled="disabled"  />Pentadbir Utama
+	</th:block>
+	</th:block>
+	
+	 <th:block th:if="${user?.roles==null}">
+	
+	<input type="radio" name="roleId" value="PENTADBIR"  checked/>Pentadbir
+	 &nbsp;&nbsp;&nbsp;<input type="radio" name="roleId" value="PENTADBIR UTAMA"   />Pentadbir Utama
+	</th:block> 
+  
+  </th:block>
+ 
+ 
+
+</th:block>
+
+
+
+<th:block th:if="${getAllUser.empty}">
+
+
+	<input type="radio" name="roleId" value="PENTADBIR"    />Pentadbir
+	 &nbsp;&nbsp;&nbsp;<input type="radio" name="roleId" checked value="PENTADBIR UTAMA"   />Pentadbir Utama
+	
+</th:block>
+
+
+
+</p>
+
+
+            
+
+</div>
+
+
+<br>
+
+<center> <button  style="background-color:#0033cc; border: none;color: white;padding: 5px 28px;text-align: center;display: inline-block;font-size: 16px;margin: 4px 2px;
+  cursor: pointer;" id="submitJQ" name="submitJQ" type="submit"  > HANTAR
+</button></center>
+</div>
+
+<div id="dialog" title="Pengesahan"><p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 5px 0 0;"></span> Adakah anda pasti untuk simpan?</p>
+</form></div>
+<footer><div th:replace="fragments/footer :: footer">&copy; </div></footer>
+
+<script type="text/javascript">
+function InvalidMsg(textbox) {
+    
+    if (textbox.value == '') {
+        textbox.setCustomValidity('Sila masukkan data.');
+    }
+    else if(textbox.validity.typeMismatch){
+        textbox.setCustomValidity('Sila masukkan e-mel yang sah.');
+    }
+    else if(textbox.validity.patternMismatch){
+    	textbox.setCustomValidity('Sila masukkan e-mel yang sah.');
+    }
+    else {
+        textbox.setCustomValidity('');
+    }
+    return true;
+}
+
+function InvalidMsgPassword(textbox) {
+    
+    if (textbox.value == '') {
+        textbox.setCustomValidity('Sila masukkan data.');
+    }
+    else if(textbox.validity.patternMismatch){
+        textbox.setCustomValidity('Mesti mengandungi sekurang- kurangnya satu nombor dan satu huruf besar dan satu huruf kecil dan minimum 6 abjad dan maximum 8 abjad.');
+    }
+    else {
+        textbox.setCustomValidity('');
+    }
+    return true;
+}  
+
+</script>
+</body>
+</html>

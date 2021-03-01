@@ -1,0 +1,247 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<script th:src="@{/js/1.11.1/jquery.min.js}"></script>
+<link th:href="@{/css/3.3.0/bootstrap.min.css}" rel="stylesheet" id="bootstrap-css">
+<script th:src="@{/js/3.3.0/bootstrap.min.js}"></script>
+<script th:src="@{/js/3.2.1/jquery.min.js}"></script>
+<link th:href="@{/css/3.0.0/bootstrap.min.css}" rel="stylesheet" id="bootstrap-css">
+<script th:src="@{/js/3.0.0/bootstrap.min.js}"></script>
+
+<meta charset="ISO-8859-1">
+
+<link rel="stylesheet" type="text/css" th:href="@{/css/blitzer/jquery-ui-1.8.2.custom.css}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script type="text/javascript" th:src="@{/js/jquery-1.4.2.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-ui-1.8.2.custom.min.js}"></script>
+<script type="text/javascript">
+
+function nospaces(t){
+
+	if(t.value.match(/\s/g)){
+
+	document.getElementById("error").innerHTML="Maaf, anda tidak dibenarkan untuk memasukkan sebarang ruang kosong.";
+	t.value=t.value.replace(/\s/g,'');
+
+	}
+
+
+	if(t.value.match(/[`~!@#$%^&*()|+\-=?;:'",.<>\{\}\[\]\\\/]/g)){
+
+	document.getElementById("error").innerHTML="Maaf, anda tidak dibenarkan untuk memasukkan sebarang simbol khas.";
+	t.value=t.value.replace(/[`~!@#$%^&*()|+\-=?;:'",.<>\{\}\[\]\\\/]/g,'');
+
+	}
+
+	}
+
+</script>
+
+<script type="text/javascript">
+
+$(window).load(function(){
+  $('#overlay').fadeOut();
+});
+            $(function(){
+                
+                // jQuery UI Dialog    
+                        
+                $('#dialog').dialog({
+                    autoOpen: false,
+                    width: 400,
+                    modal: true,
+                    resizable: false,
+                    buttons: {
+                        "HANTAR": function() {
+                        	 $('#overlay').fadeIn();
+                            document.userForm.submit();
+                        },
+                        "BATAL": function() {
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+                
+                $('form#userForm').submit(function(){
+                    $('#dialog').dialog('open');
+                    return false;
+                });
+                
+                
+                
+            });
+</script>
+
+<title>Daftar Pelulus</title>
+  <link rel="stylesheet" type="text/css" media="all" href="../../css/createapproval.css" th:href="@{/css/createapproval.css}" />
+</head>
+<body>
+  <header th:insert="fragments/header :: header"> </header>
+<br><br>
+<div style="background-color:#3598dc; height:560px; width:450px; border-radius:30px; text-font:Arial;" class="col-md-offset-4">
+<h1 style="text-align:center; padding-top:30px; color:#000d33;text-font:Arial"> DAFTAR PELULUS</h1>
+<form class="main__form" name="userForm" id="userForm" th:action="@{/addApproval}" th:object="${userApprovalForm}" method="post"  enctype="multipart/form-data">
+
+
+<input type="hidden" id="id"  name="id">
+
+
+<style>
+    #overlay {
+        background: #ffffff;
+        color: #666666;
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        z-index: 5000;
+        top: 0;
+        left: 0;
+        float: left;
+        text-align: center;
+        padding-top: 25%;
+    }
+</style>
+
+<div id="overlay">
+    <img th:src="@{/images/loader.gif}" alt="Loading" /><br/>
+    Loading...
+</div>
+
+
+<div class="col-sm-12" style="padding-top:10px;">
+ID Pelulus:<input type="text" class="form-control" th:field="*{userId}" id="userId" onkeyup="nospaces(this)" placeholder="ID Pelulus" name="userId" style="border-radius:15px;" required maxlength="20" oninvalid="this.setCustomValidity('Sila masukkan data.')" oninput="setCustomValidity('')" >
+<span th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}" style="color:red">..</span>
+<span id="error" style="color:red"></span>
+
+</div>
+<div class="col-sm-12" style="padding-top:10px;">
+Nama:<input type="text" class="form-control" th:field="*{name}" id="name" placeholder="Nama" name="name" style="border-radius:15px;" required maxlength="40" oninvalid="this.setCustomValidity('Sila masukkan data.')" oninput="setCustomValidity('')">
+</div>
+<div class="col-sm-12" style="padding-top:10px;">
+E-mel: <input type="email" class="form-control" id="email" th:field="*{email}" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" title="E-mel tidak sah" placeholder="E-mel" maxlength="30" name="email" style="border-radius:15px;" required oninvalid="InvalidMsg(this);" onchange="try{setCustomValidity('')}catch(e){}" oninput="InvalidMsg(this);">
+</div>
+
+<div class="col-sm-12" style="padding-top:10px;">
+ 
+Jenis fail:<select class="form-control" th:field="*{jenisFail}"  name="jenisFail" id="jenisFail"  style="border-radius:15px;" required  oninvalid="this.setCustomValidity('Sila pilih data.')" oninput="setCustomValidity('')">
+  <option value=""> Jenis fail</option>
+  <option value="p12">P12</option>
+  <option value="dongle">Dongle</option>
+ <!--  <option value="Binary">Binary</option>  -->
+</select>
+
+
+</div>
+
+<div class="col-sm-12" style="padding-top:10px;">
+Kata Laluan: 
+<input type="password" class="form-control" th:field="*{password}" id="password" placeholder="Katalaluan Sijil" name="password" maxlength="10"  style="border-radius:15px;" required="required" oninvalid="this.setCustomValidity('Sila masukkan data.')" oninput="setCustomValidity('')">
+<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color:red">..</span>
+</div>
+
+<div class="col-sm-12" style="padding-top:24px;">
+<input class="custom-file-input" th:field="*{file}"  type="file" name="file" oninvalid="this.setCustomValidity('Sila masukkan data.')" oninput="setCustomValidity('')">
+<span th:if="${#fields.hasErrors('file')}" th:errors="*{file}" style="color:red">..</span>
+</div>
+
+<center> <button  style="background-color:#0033cc; border: none;color: white;padding: 5px 28px;text-align: center;display: inline-block;font-size: 16px;margin: 4px 2px;
+  cursor: pointer;" id="submitJQ" name="submitJQ" type="submit" > HANTAR
+</button></center>
+</div>
+
+<div id="dialog" title="Pengesahan"><p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 5px 0 0;"></span> Adakah anda pasti untuk simpan?</p>
+</form>
+</div>
+<br><br><br>
+<footer><div th:replace="fragments/footer :: footer">&copy; </div></footer>
+
+<script type="text/javascript">
+function InvalidMsg(textbox) {
+    
+    if (textbox.value == '') {
+        textbox.setCustomValidity('Sila masukkan data.');
+    }
+    else if(textbox.validity.typeMismatch){
+        textbox.setCustomValidity('Sila masukkan e-mel yang sah.');
+    }
+    else if(textbox.validity.patternMismatch){
+    	textbox.setCustomValidity('Sila masukkan e-mel yang sah.');
+    }
+    else {
+        textbox.setCustomValidity('');
+    }
+    return true;
+}
+
+</script>
+
+ <script type="text/javascript">
+var $ = jQuery.noConflict();
+
+$(document).ready(function() {
+	if ($('#jenisFail').val()=='dongle'){
+
+		  $('#file').attr("disabled","disabled");
+		  
+	}if ($('#jenisFail').val()=="p12" ){
+		
+		  $('#file').attr("required","required");
+		
+		 // $('#fileName').attr("oninvalid","setCustomValidity('Sila masukkan data')");
+		 // $('#fileName').attr("oninput", "setCustomValidity('')");
+		  $('#file').removeAttr("disabled");
+		  
+		  
+	}if ($('#jenisFail').val()=="" ){
+		
+		 $('#jenisFail').attr("required", "required");
+		// $('#jenisFail').attr("oninvalid","setCustomValidity('Sila pilih data.')");
+	 	// $('#jenisFail').attr("oninput", "setCustomValidity('')");
+	 	
+		// $('#fileName').attr("oninvalid","setCustomValidity('Sila masukkan data.')");
+	 	// $('#fileName').attr("oninput", "setCustomValidity('')");
+	 	 $('#file').removeAttr("disabled");
+		 
+	}
+	
+	//$('#jenisFail').on('change', function(){
+$('select').change(function(){
+		
+		if (this.value=="dongle" ){
+			// alert("sini dongle");
+			 // $('#divD').show();
+			  //$('#div12').hide();
+			  $('#file').attr("disabled","disabled");
+			  $('#password').attr("disabled","disabled");
+			 
+		}if (this.value=="p12" ){
+			 //alert("sini 12");
+			
+			  $('#password').attr("required", "required");
+			  $('#file').attr("required","required");
+			
+			 // $('#fileName').attr("oninvalid","setCustomValidity('Sila masukkan data')");
+			 // $('#fileName').attr("oninput", "setCustomValidity('')");
+			  $('#file').removeAttr("disabled");
+			  $('#password').removeAttr("disabled");
+		
+		}if (this.value=="" ){
+			// alert("sini ");
+			 $('#jenisFail').attr("required", "required");
+			//$('#jenisFail').attr("oninvalid","setCustomValidity('Sila pilih data.')");
+		 	// $('#jenisFail').attr("oninput", "setCustomValidity('')");
+		 	
+			 $('#password').removeAttr("required");
+			 
+			// $('#fileName').attr("oninvalid","setCustomValidity('Sila masukkan data.')");
+		 	// $('#fileName').attr("oninput", "setCustomValidity('')");
+		 	 $('#file').removeAttr("disabled");
+			
+		}
+		
+			
+		});
+});
+
+</script> 
+</body>
+</html>

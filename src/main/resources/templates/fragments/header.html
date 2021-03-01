@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"   xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<body>
+<th:block th:fragment="header">
+       <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+         <div class="navbar-header">
+          <!-- <img  width="150px" height="50px" th:src="@{/images/Logo.jpg}"/> -->
+          <img  width="60px" height="50px" th:src="@{/images/jata.png}"/>    
+          
+        </div><a class="navbar-brand" href="#">e-IPTS DSS</a>
+       <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li>  
+              	<a><span style="text-transform: uppercase;color:white"  th:text="${#authentication.getDetails()}"></span> <span style="text-transform: uppercase;color:white" th:text="${#authentication.getRoles()}"></span> </a>  </li>
+            <li><a th:href="@{/home}">Paparan Utama</a></li>
+            <li><a th:href="@{/adminSetting}">Tetapan Sistem</a></li>
+            <li><a th:href="@{/profile}">Profil</a></li>
+         <!--    <li><a href="#">Bantuan</a></li> -->
+            <li>
+            	<script>function submitForm(){ document.frmLogout.submit(); }</script>
+				<form name="frmLogout" style="display:none" th:action="@{/logout}" method="post"></form>
+            	<a href="javascript:submitForm();">Log Keluar</a>
+            </li> 
+          </ul>
+          
+        </div>
+      </div>
+    </nav>
+</th:block>
+</body>
+</html>

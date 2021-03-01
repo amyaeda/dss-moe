@@ -1,0 +1,261 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+
+
+<!--
+<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+-->
+<script th:src="@{/js/1.11.1/jquery.min.js}"></script>
+<link th:href="@{/css/2.3.2/bootstrap-combined.min.css}" rel="stylesheet" id="bootstrap-css">
+<script th:src="@{/js/2.3.2/bootstrap.min.js}"></script>
+
+<link th:href="@{/css/3.0.0/bootstrap.min.css}" rel="stylesheet" id="bootstrap-css">
+<script th:src="@{/js/3.0.0/bootstrap.min.js}"></script>
+<link th:href="@{/css/paging/bootstrap.min.css}" rel="stylesheet"/>
+<link th:href="@{/css/paging/pagination.css}" rel="stylesheet"/>
+<script th:src="@{/js/paging/jquery.min.js}"></script> 
+
+
+<meta charset="ISO-8859-1">
+<!-- for alert  -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+
+<script type="text/javascript">
+var $ = jQuery.noConflict();
+var serverContext = [[@{/}]];
+
+$(document).ready(function() { 
+	
+	$('.dlt_batal').on('click', function(){
+		 var el = this;
+		  
+		    // Delete id
+		    var deleteid = this.id;
+		$.confirm({
+		    title: 'Batal!',
+		    content: 'Anda Pasti untuk membuat pembatalan token?',
+		    buttons: {
+		        Ya: function () {
+		            //$.alert('Confirmed!');
+		        	 $.ajax({
+		        		 
+		        		 type : "GET",
+		        		//for local
+		                 //url:"http://localhost:8082/dss-moe/deleteApproval/"+deleteid,
+		                 url: serverContext + "revoke/"+deleteid,
+		                 data:{id:deleteid},
+		              
+		                 //cache: false,
+		                 //dataType: "json",
+		                 success: function (data) { 
+		                	
+		                	 $("#success").html("Token berjaya dibatalkan");
+		                	 setTimeout(function() { location.reload() },2500);
+		                	 //location.reload();
+		                	// window.location.href = window.location.href;
+		                	/*  $(el).closest('tr').fadeOut(800,function(){
+		                		    $(this).remove();
+		                		 }); */
+		                 }
+		             });
+		        	 
+		        },
+		        Tidak: function () {
+		           // $.alert('Canceled!');
+		        },
+		        
+		    }
+		});
+	
+	 });
+	 
+	 //delete file
+	 $('.dlt_dtl').on('click', function(){
+		 var el = this;
+		  
+		    // Delete id
+		    var deleteid = this.id;
+		   
+		$.confirm({
+		    title: 'Padam!',
+		    content: 'Anda Pasti untuk memadamkan token?',
+		    buttons: {
+		        Ya: function () {
+		            //$.alert('Confirmed!');
+		        	 $.ajax({
+		        		 
+		        		 type : "GET",
+		        		//for local
+		                 //url:"http://localhost:8082/dss-moe/deleteApproval/"+deleteid,
+		                 url: serverContext + "deleteToken/"+deleteid,
+		                 data:{id:deleteid},
+		                 success: function (data) { 
+		                
+		                	 $("#success").html("Token berjaya dipadam");
+		                	 setTimeout(function() { location.reload() },2500);
+		                	
+		                 }
+		             });
+		        	 
+		        },
+		        Tidak: function () {
+		           
+		        },
+		        
+		    }
+		});
+	
+	 });
+	          
+});
+
+
+</script>
+<title>Admin</title>
+<link rel="stylesheet" type="text/css" media="all" href="../../css/revoketoken.css" th:href="@{/css/revoketoken.css}" />
+
+</head>
+<body>
+ <header th:insert="fragments/header :: header"> </header>
+    <br><br><br>
+<input type="hidden" id="pageSize" name="pageSize" th:value="${pager.getSelectedPageSize()}"/>
+<input type="hidden" id="page" name="page" th:value="1"/>
+
+<div class="span9">  <br>  
+
+<span id="success" th:text="${message}" style="color:green">${message}</span>
+ 
+<div class="widget stacked widget-table action-table">
+
+
+    				
+				<div class="widget-header">
+					<i class="icon-th-list"></i>
+					<h3>Pembatalan/Pengaktifan Token</h3>
+				</div> <!-- /widget-header -->
+				
+				<div class="widget-content">
+					
+					<table class="table table-striped table-bordered">
+						<thead>
+							<tr>
+								<th>Bil.</th>
+								<th>Token</th>
+								<th>Keterangan</th>
+								<th>Status</th>
+								<th class="td-actions">Batal/Aktif/Hapus</th>
+							</tr>
+						</thead>
+						<tbody>
+						
+						<tr th:if="${list.getTotalElements() == 0}">
+				                <td colspan="5">Tiada Data</td>
+				        </tr> 
+				        
+		
+				           <tr th:each="token,count  : ${list}" >
+				           
+				        <!-- Number = Row Number + (Total Record Per Page * (Current Page No - 1)) -->
+				        
+				        
+				           			<td th:text="${count.count + list.getNumber() * pager.getSelectedPageSize()}">.</td>
+				           			 
+				           			 <td th:text="${token.token}">.</td>
+				           			  <td th:text="${token.description}">.</td>
+				           			 <td>
+				           			 	<th:block th:if="${token.status}=='1'">Aktif</th:block>
+				           			 	<th:block th:if="${token.status}=='0'">Batal</th:block>
+				           			 </td>
+				           			 
+				           			 <td class="td-actions" >
+									
+									<th:block th:if="${token.status}=='1'">
+										<!-- <a th:href="@{/revoke/{id}(id=${token.id})}" class="btn btn-small btn-primary dlt_batal" > -->
+										<a  class="btn btn-small btn-primary dlt_batal" th:id="${token.id}" > Batal</a>
+									</th:block>	
+									<th:block th:if="${tokenActive.empty}"><th:block th:if="${token.status}=='0'">
+									<a th:href="@{/activeBack/{id}(id=${token.id})}" class="btn btn-small btn-primary" >Aktif</a>
+									</th:block></th:block>								
+									
+									<th:block th:if="${token.status}=='0'">
+								    <!-- 	<a th:href="@{/deleteToken/{id}(id=${token.id})}" class="btn btn-small"> -->
+									<a  class="btn btn-small btn-primary dlt_dtl" th:id="${token.id}" >
+										<i class="btn-icon-only icon-remove"> </i>										
+									</a>
+									</th:block>
+									
+								</td>
+								
+				           </tr>
+							
+							</tbody>
+						</table>
+					
+
+			
+  </div>
+  <th:block th:if="${list.getTotalElements() > 4}">
+   <div class="row" ><!--list selectable page size, defined in Pager class-->
+            	<div class="form-group col-md-1" >
+           
+
+           <!--  Halaman 1 hingga <label th:text="${pager.getSelectedPageSize()}"></label> daripada <span th:text="${list.getTotalElements()}"></span> data. -->
+                <select class="pagination" id="pageSizeSelectTokenList" style="width:46px">
+                    <option th:each="pageSize : ${pager.getPageSizes()}" th:text="${pageSize}" th:value="${pageSize}"
+                            th:selected="${pageSize} == ${pager.getSelectedPageSize()}"></option>
+                </select>
+            </div>
+            
+            
+           <div th:if="${list.getTotalPages() > 1}" class="form-group col-md-11 center">
+                <ul class="pagination">
+                   <!--list pagination button range, defined in Pager class-->
+                    <!--buttons are disabled if it is first page or last page reached-->
+                    <!--no buttons displayed when less than a page data found-->
+                    <li th:class="${list.getNumber() == 0} ? disabled"><a class="pageLink"
+                                                                          th:href="@{/revokeToken(pageSize=${pager.getSelectedPageSize()}, page=1)}"  >&laquo;</a>
+                    </li><!--list all matching data-->
+                 
+                    <li th:class="${list.getNumber() == 0} ? disabled">
+                   
+                    <a class="pageLink" th:href="@{/revokeToken(pageSize=${pager.getSelectedPageSize()}, page=${list.getNumber()})}">&larr;</a>
+                 
+                   
+                    </li> 
+                    <li th:class="${list.getNumber() == (page - 1)} ? 'active pointer-disabled'"
+                        th:each="page : ${#numbers.sequence(pager.getStartPage(), pager.getEndPage())}">
+                        <a class="pageLink"
+                            th:href="@{/revokeToken(pageSize=${pager.getSelectedPageSize()}, page=${page})}"
+                            th:text="${page}"></a></li>
+                    <li th:class="${list.getNumber() + 1 == list.getTotalPages()} ? disabled"><a class="pageLink"
+                                                                                                 th:href="@{/revokeToken(pageSize=${pager.getSelectedPageSize()}, page=${list.getNumber() + 2})}">&rarr;</a>
+                    </li>
+                    <li th:class="${list.getNumber() + 1 == list.getTotalPages()} ? disabled"><a class="pageLink"
+                                                                                                 th:href="@{/revokeToken(pageSize=${pager.getSelectedPageSize()},page=${list.getTotalPages()})}">&raquo;</a>
+                    </li>
+                </ul>
+            </div> 
+            
+            
+        </div>
+ </th:block>
+ 
+        </div>
+    </div>
+    
+  	
+
+<footer><div th:replace="fragments/footer :: footer">&copy; </div></footer>
+<script th:src="@{/js/paging/bootstrap.min.js}"></script>
+<script th:src="@{/js/paging/pagination.js}"></script>
+</body>
+
+</html>
